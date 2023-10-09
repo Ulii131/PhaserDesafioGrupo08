@@ -23,6 +23,9 @@ class Scene_play extends Phaser.Scene{
    
 });
 
+//Variable para determinar el tiempo entre disparos
+this.nextDisparoTime = 0;
+
 
 
 
@@ -54,6 +57,10 @@ class Scene_play extends Phaser.Scene{
 
   update() 
   {
+
+    //DISPARO DE LA NAVE
+
+    this.disparar();
    
 
     if (this.cursors.left.isDown) 
@@ -78,5 +85,19 @@ class Scene_play extends Phaser.Scene{
         this.player.anims.play('idle',true);
     }
   }
+
+  disparar(){
+    // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
+    if (this.cursors.space.isDown && (this.time.now > this.nextDisparoTime)) {
+      // Crea el disparo y establece su velocidad
+      this.disparo = this.physics.add.image(this.player.x, this.player.y, 'disparo');
+      this.disparo.setVelocityX(500);
+  
+      // Establece el tiempo en el que el siguiente disparo podrá realizarse
+      this.nextDisparoTime = this.time.now + 150; // 1000 milisegundos (1 segundo) de cooldown
+    }
+  }
+  
+ 
 }  
   export default Scene_play;

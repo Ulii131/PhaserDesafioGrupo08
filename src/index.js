@@ -1,6 +1,6 @@
 import Bootloader from "../src/Bootloader.js    ";
 import Scene_play from "../src/escenas/Scene_play.js";
-import Scene_two from "./escenas/Scene_two";
+
 
 const config = {
     title: "FPWTpExpress",
@@ -25,7 +25,7 @@ const config = {
     },
     scene: [
         Bootloader,
-        Scene_play, Scene_two
+        Scene_play
     ]
 };
 
