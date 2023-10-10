@@ -15,5 +15,5 @@ app.use('/node_modules', express.static(__dirname + '/node_modules'));
 
 //configurar server basico
 app.listen(5003, function(){    
-    console.log("Servidor NODE Grupo8 kl corriendo correctamente")
+    console.log("Servidor NODE Grupo8 kl corriendo correctamente");
 });
