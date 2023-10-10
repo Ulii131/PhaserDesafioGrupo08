@@ -1,12 +1,13 @@
-class Scene_play extends Phaser.Scene{
-  constructor() {
-    super("Scene_play"); 
+class Scene_play2 extends Phaser.Scene{
+
+constructor() {
+    super("Scene_play2"); 
 }
 preload(){
 
 }
 create(){
- this.add.image(400,300,'BG');
+ this.add.image(400,300,'lvl2');
  this.player = this.physics.add.sprite(400,300,'nave');
  this.cursors = this.input.keyboard.createCursorKeys();
  this.particles = this.add.particles(-10,0,'particula',{
@@ -119,4 +120,4 @@ disparar(){
 
 
 }  
-export default Scene_play;
+export default Scene_play2;
