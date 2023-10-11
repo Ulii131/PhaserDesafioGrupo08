@@ -123,7 +123,7 @@ update()
       this.player.anims.play('idle',true);
   }
   
-  ///
+  ///disparo/bala de boss
 
   this.bossDisparar();
 
@@ -144,12 +144,11 @@ disparar(){
 bossDisparar(){
   // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
   if (this.time.now > this.nextBossDisparoTime) {
-    // Crea una bala del jefe y establece su velocidad
+    // Crea una bala y establece su velocidad
     const balaBoss = this.bossBalas.create(this.boss.x, this.boss.y, 'bala');
 
-    // Establece la velocidad 
     balaBoss.setVelocityX(-300);
-    
+
     // Establece el tiempo en el que el siguiente disparo podrá realizarse
     this.nextBossDisparoTime = this.time.now + 1000; 
   }
