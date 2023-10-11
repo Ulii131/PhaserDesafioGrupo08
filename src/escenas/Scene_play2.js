@@ -24,6 +24,7 @@ create(){
  
 });
 
+
  // Grupo para las naves enemigas
  this.enemiesGroup = this.physics.add.group();
 
@@ -38,12 +39,31 @@ create(){
       enemy.setVelocityX(-enemy.speed); // Establece la velocidad horizontal
   },
   callbackScope: this,
-  loop: true
+  loop: true 
   
+}); 
+
+  //Boss
+  this.boss = this.physics.add.image(this.game.config.width - 10, this.game.config.height / 2, 'boss');
+  this.boss.setOrigin(0.5, 0.5);
+
+  this.bossMoving = this.tweens.add({
+    targets: this.boss.body.velocity,
+    props: {
+      x: { from: 100, to: -100, duration: 4000 }, // Movimiento horizontal
+      y: { from: 200, to: -200, duration: 2000 }  // Movimiento vertical
+  },
+  ease: 'Sine.easeInOut',
+  yoyo: true,       // Hace que el enemigo vuelva atrás después de llegar a su destino
+  repeat: -1        // Repite el movimiento continuamente
 });
 
-
-//Variable para determinar el tiempo entre disparos
+      //Balas de boss
+      this.bossBalas = this.add.existing(
+        new Balas(this.physics.world, this, {name: 'bossBalas'})
+      )
+  
+  //Variable para determinar el tiempo entre disparos
 this.nextDisparoTime = 0;
 
 
@@ -104,6 +124,8 @@ update()
       this.player.setVelocityY(0);
       this.player.anims.play('idle',true);
   }
+  
+  ///
 }
 
 disparar(){
