@@ -59,12 +59,10 @@ create(){
 });
 
       //Balas de boss
-      this.bossBalas = this.add.existing(
-        new Balas(this.physics.world, this, {name: 'bossBalas'})
-      )
-  
+      this.bossBalas = this.physics.add.group();
+
   //Variable para determinar el tiempo entre disparos
-this.nextDisparoTime = 0;
+this.nextBossDisparoTime = 0;
 
 
 
@@ -126,6 +124,9 @@ update()
   }
   
   ///
+
+  this.bossDisparar();
+
 }
 
 disparar(){
@@ -138,6 +139,21 @@ disparar(){
     // Establece el tiempo en el que el siguiente disparo podrá realizarse
     this.nextDisparoTime = this.time.now + 150; // 1000 milisegundos (1 segundo) de cooldown
   }
+}
+
+bossDisparar(){
+  // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
+  if (this.time.now > this.nextBossDisparoTime) {
+    // Crea una bala del jefe y establece su velocidad
+    const balaBoss = this.bossBalas.create(this.boss.x, this.boss.y, 'bala');
+
+    // Establece la velocidad 
+    balaBoss.setVelocityX(-300);
+    
+    // Establece el tiempo en el que el siguiente disparo podrá realizarse
+    this.nextBossDisparoTime = this.time.now + 1000; 
+  }
+  
 }
 
 
