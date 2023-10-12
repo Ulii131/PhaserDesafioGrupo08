@@ -17,6 +17,8 @@ class Scene_play extends Phaser.Scene{
     this.player = this.physics.add.sprite(400,300,'nave');
     this.cursors = this.input.keyboard.createCursorKeys(); 
 
+    this.player.setCollideWorldBounds(true,0,0);
+
     //vidas
     this.lifeText = this.add.text(20, 20, 'Life: ' + this.playerLife, { fontSize: '20px', fill: '#fff' });
 
@@ -116,15 +118,19 @@ class Scene_play extends Phaser.Scene{
   disparar(){
     // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
     if (this.cursors.space.isDown && (this.time.now > this.nextDisparoTime)) {
+      
       // Crea el disparo y establece su velocidad
       const disparo = this.disparosGroup.create(this.player.x, this.player.y, 'disparo');
-      disparo.setVelocityX(500);
+      
 
       this.disparosGroup.add(disparo);
 
+      
+
       // Establece el tiempo en el que el siguiente disparo podrá realizarse
-      this.nextDisparoTime = this.time.now + 150; // 1000 milisegundos (1 segundo) de cooldown
+      this.nextDisparoTime = this.time.now + 200; // 1000 milisegundos (1 segundo) de cooldown
     }
+    this.disparosGroup.setVelocityX(500);
   }
 
   playerCollision(player, enemy) {
@@ -135,7 +141,9 @@ class Scene_play extends Phaser.Scene{
     enemy.destroy();
 
     if (this.playerLife <= 0) {
-      this.scene.start("gameOver"); 
+      this.scene.start("gameOver");
+      this.playerLife = 3;
+      this.score = 0; 
     } 
   }  
 
@@ -151,7 +159,8 @@ class Scene_play extends Phaser.Scene{
     }
 
     if(this.score >= 200){
-      this.scene.start("Scene_play2", { playerLife: this.playerLife }); //pasa la vida actual del jugador como un parametro
+      this.scene.start("Scene_play2", { playerLife: this.playerLife, score: this.score }); //pasa la vida actual del jugador como un parametro
+      this.score = 0;
     }
   }
 }

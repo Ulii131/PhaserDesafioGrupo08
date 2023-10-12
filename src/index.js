@@ -2,6 +2,7 @@ import Bootloader from "../src/Bootloader.js    ";
 import Scene_play from "../src/escenas/Scene_play.js";
 import Scene_play2 from "../src/escenas/Scene_play2.js";
 import menu from "./escenas/menu.js";
+import gameOver from "./escenas/gameOver.js";
 
 
 
@@ -30,7 +31,8 @@ const config = {
         Bootloader,
         Scene_play,
         Scene_play2,
-        menu
+        menu,
+        gameOver
     ]
 };
 

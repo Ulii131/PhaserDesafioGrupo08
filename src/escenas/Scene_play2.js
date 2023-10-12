@@ -2,17 +2,17 @@ class Scene_play2 extends Phaser.Scene{
 
   constructor() {
     super("Scene_play2"); 
-    this.playerLife = 3;
-    this.score = 0; 
-    this.bossLife = 20;
   }
   preload(){
   
   }
   create(data){
 
+    this.bossLife = 20;
+
   //obtiene la vida del jugador de la escena naterior  
   this.playerLife = data.playerLife;
+  this.score = data.score;
 
   //background
   this.add.image(400,300,'lvl2');
@@ -60,7 +60,7 @@ class Scene_play2 extends Phaser.Scene{
     this.bossMoving = this.tweens.add({
       targets: this.boss.body.velocity,
       props: {
-        x: { from: 100, to: -100, duration: 4000 }, // Movimiento horizontal
+        x: { from: 20, to: -120, duration: 4000 }, // Movimiento horizontal
         y: { from: 200, to: -200, duration: 2000 }  // Movimiento vertical
     },
     ease: 'Sine.easeInOut',
@@ -114,6 +114,8 @@ class Scene_play2 extends Phaser.Scene{
   
   update() 
   {
+
+
     //colision jugador y enemigos
     this.physics.overlap(this.player, this.enemiesGroup, this.playerCollision, null, this);
 
@@ -121,6 +123,10 @@ class Scene_play2 extends Phaser.Scene{
     this.physics.overlap(this.disparosGroup, this.enemiesGroup, this.enemyDestroy, null, this);
 
     this.physics.overlap(this.disparoBossGroup, this.player, this.balaBossCollision, null, this);
+
+    
+
+  
 
     // Colisión entre disparos del jugador y el jefe
     this.physics.overlap(this.disparosGroup, this.boss, this.bossDestroy, null, this);
@@ -156,15 +162,19 @@ class Scene_play2 extends Phaser.Scene{
   disparar(){
     // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
     if (this.cursors.space.isDown && (this.time.now > this.nextDisparoTime)) {
+      
       // Crea el disparo y establece su velocidad
       const disparo = this.disparosGroup.create(this.player.x, this.player.y, 'disparo');
-      disparo.setVelocityX(500);
+      
 
       this.disparosGroup.add(disparo);
-  
+
+      
+
       // Establece el tiempo en el que el siguiente disparo podrá realizarse
-      this.nextDisparoTime = this.time.now + 150; // 1000 milisegundos (1 segundo) de cooldown
+      this.nextDisparoTime = this.time.now + 200; // 1000 milisegundos (1 segundo) de cooldown
     }
+    this.disparosGroup.setVelocityX(500);
   }
   
   bossDisparar(){
@@ -194,13 +204,10 @@ class Scene_play2 extends Phaser.Scene{
     this.playerLife --;
     this.lifeText.setText('Life: ' + this.playerLife);
 
-    // balaBoss.destroy();
-
-    // if (this.playerLife <= 0) {
-    //   this.scene.start("gameOver");
-    // }
+    if (this.playerLife <= 0) {
+      this.scene.start("gameOver");
+    }
   }
-
 
   enemyDestroy(disparo, enemy) {
     enemy.enemyLife -= 1;
@@ -213,29 +220,26 @@ class Scene_play2 extends Phaser.Scene{
       this.scoreText.setText('Score: ' + this.score);
     }
 
-    if(this.score >= 200){
+    if(this.score >= 500){
       this.scene.start("gameOver"); 
     }
   }
 
   bossDestroy(disparo, boss) {
+    
     this.bossLife -= 1;
+
+    disparo.destroy();
+    
 
     this.lifeBossText.setText('Life Boss: ' + this.bossLife)
 
-    disparo.destroy();
+    
 
-    if (this.bossLife <= 0) {
-      boss.destroy();
-      this.scene.start("gameOver");
-    }
+    // if (this.bossLife <= 0) {
+    //   boss.destroy();
+    //   this.scene.start("gameOver");
+    // }
   }
-
-  winn(){
-    if(this.score >= 550){
-      this.scene.start("gameOver"); 
-    }
-  }
-  
-  }  
+}
   export default Scene_play2;
