@@ -3,6 +3,7 @@ import Scene_play from "../src/escenas/Scene_play.js";
 import Scene_play2 from "../src/escenas/Scene_play2.js";
 import menu from "./escenas/menu.js";
 import gameOver from "./escenas/gameOver.js";
+import megaWin from "./escenas/megaWin.js";
 
 
 
@@ -32,7 +33,8 @@ const config = {
         Scene_play,
         Scene_play2,
         menu,
-        gameOver
+        gameOver,
+        megaWin
     ]
 };
 

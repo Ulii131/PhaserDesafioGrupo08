@@ -7,8 +7,7 @@ class Scene_play2 extends Phaser.Scene{
   
   }
   create(data){
-
-    this.bossLife = 20;
+   this.bossLife = 20;
 
   //obtiene la vida del jugador de la escena naterior  
   this.playerLife = data.playerLife;
@@ -50,18 +49,21 @@ class Scene_play2 extends Phaser.Scene{
     loop: true 
     
   }); 
-  
+    
+  this.bossGroup = this.physics.add.group();
     //Boss
-    this.boss = this.physics.add.image(this.game.config.width - 10, this.game.config.height / 2, 'boss');
-    this.boss.setOrigin(0.5, 0.5);
-    this.bossLife = 20;
-    this.physics.world.enable(this.boss);
+    
+    const boss = this.physics.add.image(this.game.config.width - 10, this.game.config.height / 2, 'boss');
+    this.bossGroup.add(boss);
+    boss.setOrigin(0.5, 0.5);
+    boss.bossLife = 20;
+    this.physics.world.enable(this.bossGroup);
   
-    this.bossMoving = this.tweens.add({
-      targets: this.boss.body.velocity,
+    boss.bossMoving = this.tweens.add({
+      targets: boss.body.velocity,
       props: {
-        x: { from: 20, to: -120, duration: 4000 }, // Movimiento horizontal
-        y: { from: 200, to: -200, duration: 2000 }  // Movimiento vertical
+        x: { from: 30, to: -30, duration: 4000 }, // Movimiento horizontal
+        y: { from: 30, to: -30, duration: 2000 }  // Movimiento vertical
     },
     ease: 'Sine.easeInOut',
     yoyo: true,       // Hace que el enemigo vuelva atrás después de llegar a su destino
@@ -129,7 +131,7 @@ class Scene_play2 extends Phaser.Scene{
   
 
     // Colisión entre disparos del jugador y el jefe
-    this.physics.overlap(this.disparosGroup, this.boss, this.bossDestroy, null, this);
+    this.physics.overlap(this.disparosGroup, this.bossGroup, this.bossDestroy, null, this);
 
 
     //DISPARO DE LA NAVE
@@ -181,7 +183,7 @@ class Scene_play2 extends Phaser.Scene{
     // Verifica si la tecla de espacio está presionada y si ha pasado suficiente tiempo desde el último disparo
     if (this.time.now > this.nextBossDisparoTime) {
       // Crea una bala y establece su velocidad
-      const balaBoss = this.disparoBossGroup.create(this.boss.x, this.boss.y, 'bala');
+      const balaBoss = this.disparoBossGroup.create(this.game.config.width, Phaser.Math.Between(50, this.game.config.height - 50), 'bala');
       balaBoss.setVelocityX(-300);
       // Establece el tiempo en el que el siguiente disparo podrá realizarse
       this.nextBossDisparoTime = this.time.now + 1000; 
@@ -221,25 +223,26 @@ class Scene_play2 extends Phaser.Scene{
     }
 
     if(this.score >= 500){
-      this.scene.start("gameOver"); 
+      this.scene.start("megaWin"); 
     }
   }
 
   bossDestroy(disparo, boss) {
     
-    this.bossLife -= 1;
+    boss.bossLife -= 1;
 
     disparo.destroy();
-    
-
-    this.lifeBossText.setText('Life Boss: ' + this.bossLife)
 
     
 
-    // if (this.bossLife <= 0) {
-    //   boss.destroy();
-    //   this.scene.start("gameOver");
-    // }
+    this.lifeBossText.setText('Life Boss: ' + boss.bossLife)
+
+    
+
+    if (boss.bossLife <= 0) {
+      boss.destroy();
+      this.scene.start("megaWin");
+    }
   }
 }
   export default Scene_play2;
