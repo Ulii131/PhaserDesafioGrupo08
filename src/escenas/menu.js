@@ -9,12 +9,7 @@ class menu extends Phaser.Scene{
 
     preload(){
 
-        this.load.image('menuBg', '../public/img/MenuBG.png');
-        this.load.spritesheet('menuPlay', '../public/img/playbt.png', {frameWidth:120,
-        frameHeight:120});
-        this.load.image('restart', '../public/img/restartbt.png');
-        this.load.image('gameOver', '../public/img/GameOver.png');
-        this.load.image('titulo', '../public/img/titulo.png');
+        
     }
 
     create(){
