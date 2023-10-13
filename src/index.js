@@ -1,6 +1,11 @@
 import Bootloader from "../src/Bootloader.js    ";
 import Scene_play from "../src/escenas/Scene_play.js";
-import Scene_two from "./escenas/Scene_two";
+import Scene_play2 from "../src/escenas/Scene_play2.js";
+import menu from "./escenas/menu.js";
+import gameOver from "./escenas/gameOver.js";
+import megaWin from "./escenas/megaWin.js";
+
+
 
 const config = {
     title: "FPWTpExpress",
@@ -25,7 +30,11 @@ const config = {
     },
     scene: [
         Bootloader,
-        Scene_play, Scene_two
+        Scene_play,
+        Scene_play2,
+        menu,
+        gameOver,
+        megaWin
     ]
 };
 
